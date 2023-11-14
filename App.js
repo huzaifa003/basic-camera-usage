@@ -25,15 +25,30 @@ export default function App() {
     setType(current => (current === CameraType.back ? CameraType.front : CameraType.back));
   }
 
+  function turnOffCamera() {
+    setType(null);
+  }
+
   return (
     <View style={styles.container}>
-      <Camera style={styles.camera} type={type}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-            <Text style={styles.text}>Flip Camera</Text>
-          </TouchableOpacity>
+      {type && (
+        <Camera style={styles.camera} type={type}>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
+              <Text style={styles.text}>Flip Camera</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={turnOffCamera}>
+              <Text style={styles.text}>Turn Off Camera</Text>
+            </TouchableOpacity>
+          </View>
+        </Camera>
+      )}
+      {!type && (
+        <View style={styles.container}>
+          <Text style={{ textAlign: 'center' }}>Camera turned off</Text>
+          <Button onPress={() => setType(CameraType.back)} title="Turn on camera" />
         </View>
-      </Camera>
+      )}
     </View>
   );
 }
